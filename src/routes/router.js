@@ -4,7 +4,9 @@ import { storageImage, storageDocument, fileImage, fileFilterDocument } from "..
 import fs from "node:fs"
 import path from "node:path";
 import multer from "multer";
+import dotenv from 'dotenv'
 
+dotenv.config()
 export const router = Router()
 
 // returno da função para não ser repetitivo
@@ -76,7 +78,7 @@ router.post("/document", (request, response) => {
 // Remoção dos arquivos upload como image e pdf
 router.delete('/remove/:id', async (request, response) => {  
   const tmpPath = path.resolve(
-    request.params.id.includes("pdf") ? "\\\\192.168.15.166\\servidor_arquivo\\document" : "\\\\192.168.15.166\\servidor_arquivo\\upload", 
+    request.params.id.includes("pdf") ? `${process.env.FILE_SERVER_PATH}/document` : `${process.env.FILE_SERVER_PATH}/upload`, 
     request.params.id
   )
   try {

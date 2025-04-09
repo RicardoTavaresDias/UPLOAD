@@ -1,9 +1,11 @@
 import multer from "multer";
 import fs from "node:fs"
+import dotenv from 'dotenv'
+
+dotenv.config()
 
 // Caminho do arquivo aonde será salvo
-// \\\\192.168.15.180\\teste\\ - servidor de arquivo pela rede
-const PATH = "\\\\192.168.15.166\\servidor_arquivo\\"
+// \\\\192.168.15.180\\servidor_arquivo\\ - servidor de arquivo pela rede
 
 // faz parte do multer -  salvar arquivo nesse caminho upload
 const storageImage = multer.diskStorage({
@@ -29,15 +31,15 @@ const storageDocument = multer.diskStorage({
 const storage = (typeFile, callback) => {
   // C:/Users/Ricardo/Desktop/teste || tmp/upload
   //callback(null, path.resolve("tmp/upload"))
-  if(fs.existsSync(PATH)){
-    if(!fs.existsSync(PATH)){
-      fs.mkdirSync(PATH)
-      fs.mkdirSync(PATH + typeFile)
-    }else if (!fs.existsSync(PATH + typeFile)){
-      fs.mkdirSync(PATH + typeFile)
+  try {
+    if(!fs.existsSync(process.env.FILE_SERVER_PATH)){
+      fs.mkdirSync(process.env.FILE_SERVER_PATH)
+      fs.mkdirSync(process.env.FILE_SERVER_PATH + "/" + typeFile)
+    }else if (!fs.existsSync(process.env.FILE_SERVER_PATH + "/" + typeFile)){
+      fs.mkdirSync(process.env.FILE_SERVER_PATH + "/" + typeFile)
     }
-    callback(null, PATH + typeFile)
-  }else {
+    callback(null, process.env.FILE_SERVER_PATH + "/" + typeFile)
+  } catch(error){
     callback(new Error("File server not found"), null)
   }
 }
