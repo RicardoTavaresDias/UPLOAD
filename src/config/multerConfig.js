@@ -18,7 +18,8 @@ const fileFilter = (request, file, callback) => {
   if (filter.includes(file.mimetype)){
     callback(null, true)
   }else {
-    callback(new Error("Invalid file type."))
+    request.errorMessage = "Invalid file type"
+    callback(null, false)
   }
 }  
 
@@ -28,4 +29,4 @@ export const upload = multer({
   limits: {
     fileSize: 2 * 1024 * 1024
   }
-})
+}).single('file')
