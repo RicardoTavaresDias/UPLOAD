@@ -45,7 +45,7 @@ const storage = (typeFile, callback) => {
 // returno da função para não ser repetitivo
 const FileName = (file, callback) => {
   const time = new Date().getTime()
-  callback(null, `${time}_${file.originalname}`)
+  callback(null, `${time}_${file.originalname}`.replaceAll(" ", '_'))
 }
 
 // filtro tipo de arquivo será carregado - faz parte do multer - imagem

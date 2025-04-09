@@ -6,8 +6,8 @@ export const app = express()
 
 app.use(express.json())
 
-// get dos arquivos da pasta
-app.use('/document', express.static("tmp/document"))
-app.use('/upload', express.static("tmp/upload"))
+// get dos arquivos da pasta - tmp/document || tmp/upload
+app.use('/document', express.static("\\\\192.168.15.166\\servidor_arquivo\\document"))
+app.use('/upload', express.static("\\\\192.168.15.166\\servidor_arquivo\\upload"))
 
 app.use(router)

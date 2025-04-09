@@ -76,7 +76,7 @@ router.post("/document", (request, response) => {
 // Remoção dos arquivos upload como image e pdf
 router.delete('/remove/:id', async (request, response) => {  
   const tmpPath = path.resolve(
-    request.params.id.includes("pdf") ? "tmp/document" : "tmp/upload", 
+    request.params.id.includes("pdf") ? "\\\\192.168.15.166\\servidor_arquivo\\document" : "\\\\192.168.15.166\\servidor_arquivo\\upload", 
     request.params.id
   )
   try {
