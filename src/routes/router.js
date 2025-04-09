@@ -7,6 +7,25 @@ import multer from "multer";
 
 export const router = Router()
 
+// returno da função para não ser repetitivo
+const fileError = (error, request, response) => {
+  if(error instanceof multer.MulterError){
+    return response.status(422).json({ message: error.message })
+  }else if (error){
+    return response.status(500).json({ message: error.message })
+  }
+
+  if(request.errorMessage){
+    return response.status(422).json({ message: request.errorMessage })
+  }
+
+  return response.status(200).json({
+    message: "Upload completed successfully!",
+    file: request.files ? request.files : request.file
+  })
+}
+
+// configuração do multer para upload unico arquivo imagem
 const uploddSingle = multer({ 
   storage: storageImage, 
   fileFilter: fileImage, 
@@ -15,24 +34,16 @@ const uploddSingle = multer({
 
 // upload unico arquivo imagem
 router.post("/upload", (request, response) => {
+  try {
   uploddSingle(request, response, (error) => {
-    if(error instanceof multer.MulterError){
-      return response.status(422).json({ message: error.message })
-    }else if (error){
-      return response.status(500).json({ message: error.message })
-    }
-
-    if(request.errorMessage){
-      return response.status(422).json({ message: request.errorMessage })
-    }
-
-    return response.status(200).json({
-      message: "Upload completed successfully!",
-      file: request.file
-    })
-  })  
+    fileError(error, request, response)
+  }) 
+} catch (error){
+  console.log(error)
+} 
 })
 
+// configuração do multer para upload mult arquivo imagem
 const uploadMult = multer({ 
   storage: storageImage,
   fileFilter: fileImage,
@@ -42,23 +53,11 @@ const uploadMult = multer({
 // upload mult arquivo imagem
 router.post("/uploadmult", (request, response) => {
   uploadMult(request, response, (error) => {
-    if(error instanceof multer.MulterError){
-      return response.status(422).json({ message: error.message })
-    }else if (error){
-      return response.status(500).json({ message: error.message })
-    }
-
-    if(request.errorMessage){
-      return response.status(422).json({ message: request.errorMessage })
-    }
-
-    return response.status(200).json({
-      message: "Upload completed successfully!",
-      file: request.files
-    })
+    fileError(error, request, response)
   })  
 })
 
+// configuração do multer para upload unico arquivo em pdf
 const uploadDocument = multer({
   storage: storageDocument,
   fileFilter: fileFilterDocument,
@@ -70,23 +69,9 @@ const uploadDocument = multer({
 // upload unico arquivo em pdf
 router.post("/document", (request, response) => {
   uploadDocument(request, response, (error) => {
-    if(error instanceof multer.MulterError){
-      return response.status(422).json({ message: error.message })
-    }else if (error){
-      return response.status(500).json({ message: error.message })
-    }
-
-    if(request.errorMessage){
-      return response.status(422).json({ message: request.errorMessage })
-    }
-
-    return response.status(200).json({
-      message: "Upload completed successfully!",
-      file: request.file
-    })
+    fileError(error, request, response)
   })
 })
-
 
 // Remoção dos arquivos upload como image e pdf
 router.delete('/remove/:id', async (request, response) => {  
