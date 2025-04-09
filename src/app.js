@@ -6,7 +6,8 @@ export const app = express()
 
 app.use(express.json())
 
-app.use('/', express.static("tmp/upload"))
+// get dos arquivos da pasta
+app.use('/document', express.static("tmp/document"))
+app.use('/upload', express.static("tmp/upload"))
+
 app.use(router)
-
-
