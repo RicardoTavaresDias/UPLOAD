@@ -1,4 +1,4 @@
-import { Router } from "express";
+import { response, Router } from "express";
 import { storageImage, storageDocument, fileImage, fileFilterDocument } from "../config/multerConfig.js"; 
 
 import fs from "node:fs"
@@ -72,6 +72,18 @@ const uploadDocument = multer({
 router.post("/document", (request, response) => {
   uploadDocument(request, response, (error) => {
     fileError(error, request, response)
+  })
+})
+
+// Donwload arquivo
+router.get("/download/:filename", (request, response) => {
+  const directory = request.params.filename.includes("pdf") ? "document" : "upload"
+  const downloadPath = path.resolve(`${process.env.FILE_SERVER_PATH}/${directory}/${request.params.filename}`)
+  response.download(downloadPath, (error) => {
+    if(error){
+      console.log("Erro no download:", error)
+      return response.status(404).json({ message: "File not found" })
+    }
   })
 })
 
