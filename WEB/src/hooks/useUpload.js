@@ -9,11 +9,11 @@ export function useUpload(){
   async function onSubmit(){
     const formData = new FormData()
     file.forEach(files => {
-      formData.append(file.length === 1 ? "file" : "files", files)
+      formData.append(file.length === 1 ? "file" : "files", files.file)
     });
     try {
       const response = await app.post(
-        file.length == 1 ? (file[0].name.includes('pdf') ? "/document" : "/upload") : "/uploadmult",
+        file.length == 1 ? (file[0].file.name.includes('pdf') ? "/document" : "/upload") : "/uploadmult",
         formData,
         {
           onUploadProgress: (env) => {
@@ -24,9 +24,6 @@ export function useUpload(){
           }})
           
       setError(false)
-      setTimeout(() => {
-        setFile([])
-      }, 2000);
       console.log(response)
       //alert(response.data.message)
     }catch(error){
@@ -40,7 +37,7 @@ export function useUpload(){
   }
 
   function handleRemove(remove){
-    setFile((prev) => prev.filter((_, index) => index !== remove))
+    setFile((prev) => prev.filter((value) => value.id !== remove))
   }
 
   return {
