@@ -27,6 +27,7 @@ export function Upload(){
         file: value
       }])
     }
+    setProgress(0)
   }
 
   return (
