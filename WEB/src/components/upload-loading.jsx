@@ -11,7 +11,7 @@ export function UploadLoading({ file, progress, children, link }){
       </div>
         <div className="containerProgress">
           {progress == 100 ? 
-            <div className="kb">{new Intl.NumberFormat("pt-BR").format((file.size / 1024).toFixed())} mb</div> 
+            <div className="kb">{(file.size / (1024 * 1024)).toFixed(2)} MB</div> 
             :
             <div className="progress">
               <div style={{width: `${progress}%`}}></div>
