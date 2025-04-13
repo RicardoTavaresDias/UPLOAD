@@ -38,13 +38,17 @@ export function Upload(){
           progress={progress} 
           link={progress === 100 ? `http://localhost:3333/download/${value.file?.name}` : '#'} 
         >
-      
+        
           <a 
-            className={progress === 100 ? "check" : "close" } 
+            className={progress < 1 ? (progress === 100 ? "check" : "close") : 'clean' } 
             href="#" 
             onClick={progress === 100 ? '' : () => handleRemove(value.id)}
           >
-            <img src={progress === 100 ? (error ? svgCloseError : svgCheck) : svgClose} />
+            {!(progress > 0 && progress < 100) ?
+              <img src={progress === 100 ? (error ? svgCloseError : svgCheck) : svgClose} /> 
+              : 
+              null
+            } 
           </a> 
         
         </UploadLoading>
@@ -57,6 +61,7 @@ export function Upload(){
               className="btn-primary" 
               type="submit" 
               onClick={progress === 100 ? closeCarUpload : onSubmit}
+              disabled={(progress > 0 && progress < 99)}
             >
               {progress === 100 ? "Close" : "Upload"}
             </button>

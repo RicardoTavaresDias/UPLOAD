@@ -6,7 +6,7 @@ export function UploadLoading({ file, progress, children, link }){
     <div className="containerUploadLoading"  >
       <div className="arquivo" >
         <img src={svg} />
-        <a className="link" href={link} target="_parent" >{file.name}</a>
+        <a className="link" href={link} target="_parent" >{file?.name}</a>
         {children}
       </div>
         <div className="containerProgress">

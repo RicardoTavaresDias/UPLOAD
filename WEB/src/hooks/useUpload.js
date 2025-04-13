@@ -19,15 +19,15 @@ export function useUpload(){
         formData,
         {
           onUploadProgress: (env) => {
-              const progressCompleted = Math.round(
-                (env.loaded * 100) / env.total
-              )
-              setProgress(progressCompleted)
+            const progressCompleted = Math.round(
+              (env.loaded * 100) / env.total
+            )
+            setProgress(progressCompleted)          
           }
         }
-      )
-          
+      ) 
       setError(false)
+      console.log(response)
       //alert(response.data.message)
 
     }catch(error){
@@ -40,7 +40,6 @@ export function useUpload(){
        file.forEach(element => {
           app.delete("/remove/" + element.file.name)
         });
-        
       }
 
       setError(true)
@@ -49,28 +48,29 @@ export function useUpload(){
   }
 
   // Carrega o card do arquivo no upload
-  function addUpload(value){    
-      if(!setFile.length){
-        setFile({
-          id: new Date().getTime(),
-          file: value
-        })
-      }else {
-        setFile((prev) => [...prev, {
-          id: new Date().getTime(),
-          file: value
-        }])
-      }
-      setProgress(0)
+  function addUpload(value){  
+    if(!value){
+      return
     }
+    if(!setFile.length){
+      setFile({
+        id: new Date().getTime(),
+        file: value
+      })
+    }else {
+      setFile((prev) => [...prev, {
+        id: new Date().getTime(),
+        file: value
+      }])
+    }
+    setProgress(0)
+  }
 
   // Remove o card do upload
   function handleRemove(remove){
-    
-   if(progress > 10){
-     setFile(0)
-     setProgress(0)
-     console.log(progress)
+    console.log(progress)
+   if(progress > 3){
+      console.log("Cancelado carregamento!") 
      return
    }
     return setFile((prev) => prev.filter((value) => value.id !== remove))
