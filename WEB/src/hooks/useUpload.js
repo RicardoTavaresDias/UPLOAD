@@ -35,7 +35,7 @@ export function useUpload(){
 
       // Erro tipo de arquivo não permitido e apos remove que foi salvo nesse bloco de erro
       if(error instanceof AxiosError){
-        alert(error.response.data.message.message + " " + error.response.data.message.type)
+        //alert(error.response.data.message.message + " " + error.response.data.message.type)
         
        file.forEach(element => {
           app.delete("/remove/" + element.file.name)
@@ -49,12 +49,7 @@ export function useUpload(){
   }
 
   // Carrega o card do arquivo no upload
-  function addUpload(value){  
-    setError(false)
-      if(!value){
-        return
-      }    
-  
+  function addUpload(value){    
       if(!setFile.length){
         setFile({
           id: new Date().getTime(),
@@ -71,11 +66,19 @@ export function useUpload(){
 
   // Remove o card do upload
   function handleRemove(remove){
-    setFile((prev) => prev.filter((value) => value.id !== remove))
+    
+   if(progress > 10){
+     setFile(0)
+     setProgress(0)
+     console.log(progress)
+     return
+   }
+    return setFile((prev) => prev.filter((value) => value.id !== remove))
   }
 
   function closeCarUpload(){
     setFile([])
+    setProgress(0)
   }
 
   return {

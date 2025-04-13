@@ -1,7 +1,3 @@
-#error {
-  border: solid red;
-}
-
 .containerUploadLoading {
   border: solid 2px #dfdfdf;
   border-radius: 8px;
@@ -17,6 +13,8 @@
   display: flex;
   align-items: center;
   gap: 8px;
+ 
+  
 }
 
 .arquivo .link {
@@ -28,6 +26,13 @@
   color: black;
 }
 
+.arquivo .check {
+  margin-left: auto;
+  margin-right: 10px;
+  margin-top: 20px;
+  cursor: initial;
+ }
+
 .arquivo .close {
   margin-left: auto;
   margin-right: 15px;
@@ -37,7 +42,6 @@
   color: black;
   position: relative;
   padding: 5.5px;
-  
 }
 
 .arquivo .close::after {
@@ -75,6 +79,10 @@
   justify-content: space-between;
   align-items: center;
   margin-bottom: 5px;
+}
+
+.containerProgress .kb {
+  margin-left: 20px;
 }
 
 .containerProgress span{
