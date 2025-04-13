@@ -6,30 +6,15 @@ import svg from '../assets/close.svg'
 import { useUpload } from "../hooks/useUpload.js";
 
 export function Upload(){
-  const { file, progress, error, handleRemove, onSubmit, setFile, setProgress } = useUpload()
-
-  function get(){
-    alert('get')
-  }
-
-  function addUpload(value){  
-    if(!value){
-      return
-    }    
-
-    if(!setFile.length){
-      setFile({
-        id: new Date().getTime(),
-        file: value
-      })
-    }else {
-      setFile((prev) => [...prev, {
-        id: new Date().getTime(),
-        file: value
-      }])
-    }
-    setProgress(0)
-  }
+  const { 
+    file, 
+    progress, 
+    error, 
+    handleRemove, 
+    onSubmit, 
+    addUpload, 
+    closeCarUpload 
+  } = useUpload()
 
   return (
     <>
@@ -38,19 +23,32 @@ export function Upload(){
       </InputUpload>
 
       {file && file.map((value, index) => (
-        <UploadLoading key={value.id} fileName={value.file?.name} progresse={progress} border={error} onClick={() => get()}>
-          <a href="#" onClick={() => handleRemove(value.id)}>
+        <UploadLoading 
+          key={value.id} 
+          fileName={value.file?.name} 
+          progress={progress} 
+          border={error} 
+          link={progress === 100 ? `http://localhost:3333/download/${value.file?.name}` : '#'} 
+        >
+          <a className="close" href="#" onClick={() => handleRemove(value.id)}>
             <img src={svg} />
           </a>
         </UploadLoading>
       ))
       }
       
-      <Button >
-        <button className="btn-primary" type="submit" onClick={onSubmit}>
-          Upload
-        </button>
-      </Button>
+      {file.length > 0 &&
+      <>
+        <Button >
+          <button className="btn-primary" type="submit" onClick={progress === 100 ? closeCarUpload : onSubmit}>
+            {progress === 100 ? "Close" : "Upload"}
+          </button>
+        </Button>
+      </>
+      }
+
+        
+      
     </>
   )
 }

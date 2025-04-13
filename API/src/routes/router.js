@@ -93,11 +93,12 @@ router.delete('/remove/:id', async (request, response) => {
     request.params.id.includes("pdf") ? `${process.env.FILE_SERVER_PATH}/document` : `${process.env.FILE_SERVER_PATH}/upload`, 
     request.params.id
   )
+  
   try {
     await fs.promises.unlink(tmpPath)
     response.status(200).json({ message: "File removed successfully!"})
   } catch (error) {
-    console.log(error)
-    response.status(422).json({ message: "No such file or directory" })
+    console.log(error, request.params.id)
+    response.status(422).json({ message: `No such file or directory => ${request.params.id}` })
   }
 })

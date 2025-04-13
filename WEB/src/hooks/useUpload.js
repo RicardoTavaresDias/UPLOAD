@@ -1,3 +1,4 @@
+import { AxiosError } from "axios";
 import { app } from "../server/app.js"
 import { useState } from "react";
 
@@ -6,6 +7,7 @@ export function useUpload(){
   const [progress, setProgress] = useState(0)
   const [error, setError] = useState(false)
 
+  // Salva upload na api
   async function onSubmit(){
     const formData = new FormData()
     file.forEach(files => {
@@ -21,23 +23,59 @@ export function useUpload(){
                 (env.loaded * 100) / env.total
               )
               setProgress(progressCompleted)
-          }})
+          }
+        }
+      )
           
       setError(false)
-      console.log(response)
       //alert(response.data.message)
+
     }catch(error){
       console.log(error)
+
+      // Erro tipo de arquivo não permitido e apos remove que foi salvo nesse bloco de erro
+      if(error instanceof AxiosError){
+        alert(error.response.data.message.message + " " + error.response.data.message.type)
+        
+       file.forEach(element => {
+          app.delete("/remove/" + element.file.name)
+        });
+        
+      }
+
       setError(true)
-      setTimeout(() => {
-        setFile([])
-      }, 2000);
       //alert(error.response.data.message)
     }
   }
 
+  // Carrega o card do arquivo no upload
+  function addUpload(value){  
+    setError(false)
+      if(!value){
+        return
+      }    
+  
+      if(!setFile.length){
+        setFile({
+          id: new Date().getTime(),
+          file: value
+        })
+      }else {
+        setFile((prev) => [...prev, {
+          id: new Date().getTime(),
+          file: value
+        }])
+      }
+      setProgress(0)
+    }
+
+  // Remove o card do upload
   function handleRemove(remove){
     setFile((prev) => prev.filter((value) => value.id !== remove))
+  }
+
+  function closeCarUpload(){
+    setFile([])
   }
 
   return {
@@ -46,7 +84,7 @@ export function useUpload(){
     error,
     onSubmit,
     handleRemove,
-    setFile,
-    setProgress,
+    addUpload,
+    closeCarUpload
   }
 }

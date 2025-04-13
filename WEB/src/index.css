@@ -49,3 +49,7 @@ img {
 .flex-2 {
   flex: 2;
 }
+
+.btn-primary {
+  font-family: 'Poppins', sans-serif;
+}

@@ -47,7 +47,8 @@ const storage = (typeFile, callback) => {
 // returno da função para não ser repetitivo
 const FileName = (file, callback) => {
   const time = new Date().getTime()
-  callback(null, `${time}_${file.originalname}`.replaceAll(" ", '_'))
+  //callback(null, `${time}_${file.originalname}`.replaceAll(" ", '_'))
+  callback(null, file.originalname)
 }
 
 // filtro tipo de arquivo será carregado - faz parte do multer - imagem
@@ -57,7 +58,7 @@ const fileImage = (request, file, callback) => {
   if (filter.includes(file.mimetype)){
     callback(null, true)
   }else {
-    request.errorMessage = "Invalid file type"
+    request.errorMessage = { message: "Invalid file type", type: file.originalname }
     callback(null, false)
   }
 }  
