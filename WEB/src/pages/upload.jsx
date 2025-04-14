@@ -1,6 +1,7 @@
 import { InputUpload } from "../components/input-upload.jsx"
 import { UploadLoading } from '../components/upload-loading.jsx';
 import { Button } from "../components/button.jsx";
+import { Info } from "../components/info.jsx";
 
 import svgClose from '../assets/close.svg'
 import svgCheck from '../assets/check.svg'
@@ -36,7 +37,7 @@ export function Upload(){
           key={value.id} 
           file={value.file} 
           progress={progress} 
-          link={progress === 100 ? `http://localhost:3333/download/${value.file?.name}` : '#'} 
+          link={progress === 100 ? (error ? '#' : `http://localhost:3333/download/${value.file?.name}`) : '#'} 
         >
         
           <a 
@@ -68,6 +69,7 @@ export function Upload(){
           </Button>
         </>
       }
+      <Info />
     </>
   )
 }

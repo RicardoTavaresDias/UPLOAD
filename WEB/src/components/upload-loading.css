@@ -18,6 +18,8 @@
 .arquivo .link {
   text-decoration: none;
   color: rgba(0, 0, 0, 0.567);
+  font-family: 'Poppins', sans-serif;
+  font-size: 12px;
 }
 
 .arquivo .link:hover {
@@ -77,6 +79,8 @@
   justify-content: space-between;
   align-items: center;
   margin-bottom: 5px;
+  font-family: 'Poppins', sans-serif;
+  font-size: 14px;
 }
 
 .containerProgress .kb {
