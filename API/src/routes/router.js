@@ -1,4 +1,4 @@
-import { response, Router } from "express";
+import { Router } from "express";
 import { storageImage, storageDocument, fileImage, fileFilterDocument } from "../config/multerConfig.js"; 
 
 import fs from "node:fs"
