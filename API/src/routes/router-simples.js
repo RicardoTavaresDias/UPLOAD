@@ -12,7 +12,7 @@ export const routerSimples = Router()
 // upload unico arquivo imagem
 routerSimples.post("/upload", (request, response) => {
   try {
-    upload (request, response, (error) => {
+    upload.single('file') (request, response, (error) => {
       if(error instanceof multer.MulterError){
         return response.status(422).json({ message: error.message })
       }else if (error){
@@ -25,9 +25,10 @@ routerSimples.post("/upload", (request, response) => {
     
       return response.status(200).json({
         message: "Upload completed successfully!",
-        file: request.file
+        file: request.files
       })
     })
+
   } catch(error){
     console.log(error)
   }
